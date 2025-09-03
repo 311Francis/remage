@@ -2,25 +2,14 @@
 #define RMG_INNER_BREMSSTRAHLUNG_PROCESS_HH
 
 #include "G4ParticleDefinition.hh"
-<<<<<<< HEAD
 #include "G4Step.hh"
-    == == ==
-    =
-#include "G4Positron.hh"
-#include "G4Step.hh"
-#include "G4SystemOfUnits.hh"
-        >>>>>>> fc59aa2a8cb05581992f54f59b411f9705c1ddc8
 #include "G4Track.hh"
 #include "G4VParticleChange.hh"
 #include "G4WrapperProcess.hh"
 #include "globals.hh"
-            < < < < < < < HEAD
 #include "G4Positron.hh"
-        == == ==
-    =
->>>>>>> fc59aa2a8cb05581992f54f59b411f9705c1ddc8
 
-        class RMGInnerBremsstrahlungProcess : public G4WrapperProcess {
+class RMGInnerBremsstrahlungProcess : public G4WrapperProcess {
 
   public:
 
@@ -30,17 +19,8 @@
      * @param aNamePrefix Prefix for naming the process (default "RMG_IB").
      * @param aType Process type (default @c fDecay).
      */
-<<<<<<< HEAD
-    explicit RMGInnerBremsstrahlungProcess(
-        const G4String& aNamePrefix = "RMG_IB",
-        G4ProcessType aType = fDecay
-    );
-=======
-    explicit RMGInnerBremsstrahlungProcess(
-        const G4String& aNamePrefix = "RMG_IB",
-        G4ProcessType aType = fDecay
-    );
->>>>>>> fc59aa2a8cb05581992f54f59b411f9705c1ddc8
+    explicit RMGInnerBremsstrahlungProcess(const G4String& aNamePrefix = "RMG_IB",
+                                          G4ProcessType aType = fDecay);
 
     /**
      * @brief Virtual destructor.
@@ -124,19 +104,9 @@
      * @param parentTrack The original decaying nucleus track.
      * @param aStep The current step.
      */
-<<<<<<< HEAD
-    void GenerateInnerBremsstrahlungForSecondaries(
-        G4VParticleChange* particleChange,
-        const G4Track& parentTrack,
-        const G4Step& aStep
-    );
-=======
-    void GenerateInnerBremsstrahlungForSecondaries(
-        G4VParticleChange* particleChange,
-        const G4Track& parentTrack,
-        const G4Step& aStep
-    );
->>>>>>> fc59aa2a8cb05581992f54f59b411f9705c1ddc8
+    void GenerateInnerBremsstrahlungForSecondaries(G4VParticleChange* particleChange,
+                                                  const G4Track& parentTrack,
+                                                  const G4Step& aStep);
 
     /**
      * @brief Checks if a secondary track is a beta electron from decay.
@@ -147,11 +117,7 @@
     G4bool IsBetaElectron(G4Track* track);
 
     // Physical constants
-<<<<<<< HEAD
-    G4double fAlpha; ///< Fine structure constant (1/137)
-=======
-    G4double fAlpha; ///< Fine structure constant (1/137)
->>>>>>> fc59aa2a8cb05581992f54f59b411f9705c1ddc8
+    G4double fAlpha;                    ///< Fine structure constant (1/137)
     G4double fElectronMass;
     G4bool fEnabled;
     G4double fIBProbabilityScale;
