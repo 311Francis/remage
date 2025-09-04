@@ -125,6 +125,7 @@ target_compile_features(remage PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
 
 # for initial C++20 compatibility with a C++17 compiled ROOT image. TODO: remove later
 target_compile_options(remage PRIVATE -Wno-cpp)
+
 target_include_directories(remage PUBLIC "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
                                          $<INSTALL_INTERFACE:include/remage>)
 

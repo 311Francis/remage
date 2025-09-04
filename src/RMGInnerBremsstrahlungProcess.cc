@@ -12,7 +12,6 @@
 #include "G4Positron.hh"
 #include "G4Step.hh"
 #include "G4SteppingManager.hh"
-#include "G4SystemOfUnits.hh"
 #include "G4Track.hh"
 #include "G4TrackingManager.hh"
 #include "G4VParticleChange.hh"
@@ -60,15 +59,14 @@ G4VParticleChange* RMGInnerBremsstrahlungProcess::PostStepDoIt(
 void RMGInnerBremsstrahlungProcess::GenerateInnerBremsstrahlungForSecondaries(
     G4VParticleChange* particleChange,
     const G4Track& parentTrack,
-    const G4Step& aStep
+    const G4Step&
 ) {
 
   // First check if this decay actually produces electrons/positrons (beta decay)
   bool hasBetaParticles = false;
   for (G4int i = 0; i < particleChange->GetNumberOfSecondaries(); i++) {
     G4Track* track = particleChange->GetSecondary(i);
-    if (track->GetDefinition() == G4Electron::Definition() ||
-        track->GetDefinition() == G4Positron::Definition()) {
+    if (IsBetaElectron(track)) {
       hasBetaParticles = true;
       break;
     }

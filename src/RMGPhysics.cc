@@ -314,7 +314,7 @@ void RMGPhysics::ConstructProcess() {
     // Get all ions from the particle table
     auto particleIterator = GetParticleIterator();
     particleIterator->reset();
-    while ((*particleIterator())()) {
+    while ((*particleIterator)()) {
       auto particle = particleIterator->value();
       auto processManager = particle->GetProcessManager();
 
