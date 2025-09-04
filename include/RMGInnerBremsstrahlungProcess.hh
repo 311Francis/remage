@@ -121,8 +121,6 @@ class RMGInnerBremsstrahlungProcess : public G4WrapperProcess {
     G4bool IsBetaElectron(G4Track* track);
 
     // Physical constants
-    G4double fAlpha; ///< Fine structure constant (1/137)
-    G4double fElectronMass;
     G4bool fEnabled;
     G4double fIBProbabilityScale;
 };

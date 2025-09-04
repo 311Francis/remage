@@ -25,8 +25,6 @@ RMGInnerBremsstrahlungProcess::RMGInnerBremsstrahlungProcess(
     G4ProcessType aType
 )
     : G4WrapperProcess(aNamePrefix, aType) {
-  fAlpha = CLHEP::fine_structure_const;
-  fElectronMass = CLHEP::electron_mass_c2;
   fEnabled = true;
   fIBProbabilityScale = 1.0;
   RMGLog::OutFormat(
@@ -100,7 +98,7 @@ void RMGInnerBremsstrahlungProcess::GenerateInnerBremsstrahlungForSecondaries(
           RMGLog::debug,
           "{}: Beta electron energy: {:.3f} keV, IB probability: {:.6f}",
           GetProcessName(),
-          electronEnergy / keV,
+          electronEnergy / CLHEP::keV,
           ibProbability
       );
 
@@ -145,8 +143,8 @@ void RMGInnerBremsstrahlungProcess::GenerateInnerBremsstrahlungForSecondaries(
             RMGLog::debug,
             "{}: Generated IB photon {:.3f} keV from beta {:.3f} keV",
             GetProcessName(),
-            gammaEnergy / keV,
-            electronEnergy / keV
+            gammaEnergy / CLHEP::keV,
+            electronEnergy / CLHEP::keV
         );
       }
     }
@@ -174,13 +172,13 @@ G4double RMGInnerBremsstrahlungProcess::PhiFunction(G4double W_prime, G4double o
 
   G4double bracket_term = ((W * W + W_prime * W_prime) / (W_prime * p)) * std::log(W + p) - 2.0;
 
-  G4double result = (fAlpha * p) / (pi * omega * p_prime) * bracket_term;
+  G4double result = (CLHEP::fine_structure_const * p) / (pi * omega * p_prime) * bracket_term;
   return std::max(0.0, result); // Ensure non-negative results
 }
 
 G4double RMGInnerBremsstrahlungProcess::CalculateIBProbability(G4double electronEnergy) {
   // Convert electron energy to dimensionless units
-  G4double W_prime = electronEnergy / fElectronMass + 1.0;
+  G4double W_prime = electronEnergy / CLHEP::electron_mass_c2 + 1.0;
 
   if (W_prime <= 1.0) return 0.0;
 
@@ -209,13 +207,13 @@ G4double RMGInnerBremsstrahlungProcess::CalculateIBProbability(G4double electron
 
 G4double RMGInnerBremsstrahlungProcess::SamplePhotonEnergy(G4double electronEnergy) {
   // Convert electron energy to dimensionless units
-  G4double W_prime = electronEnergy / fElectronMass + 1.0;
+  G4double W_prime = electronEnergy / CLHEP::electron_mass_c2 + 1.0;
 
   // Create a cumulative distribution function (CDF) for sampling
   const int numPoints = 100;
   G4double maxOmega = W_prime - 1.0 - 0.01; // Leave some margin
 
-  if (maxOmega <= 0.01) return 0.01 * fElectronMass;
+  if (maxOmega <= 0.01) return 0.01 * CLHEP::electron_mass_c2;
 
   G4double deltaOmega = maxOmega / numPoints;
 
@@ -238,7 +236,7 @@ G4double RMGInnerBremsstrahlungProcess::SamplePhotonEnergy(G4double electronEner
   if (sum > 0.0) {
     for (size_t i = 0; i < cdf.size(); i++) { cdf[i] /= sum; }
   } else {
-    return 0.01 * fElectronMass; // Fallback
+    return 0.01 * CLHEP::electron_mass_c2; // Fallback
   }
 
   // Sample from the CDF
@@ -246,10 +244,10 @@ G4double RMGInnerBremsstrahlungProcess::SamplePhotonEnergy(G4double electronEner
   for (size_t i = 0; i < cdf.size(); i++) {
     if (r <= cdf[i]) {
       // Convert back to energy in keV
-      return omegas[i] * fElectronMass;
+      return omegas[i] * CLHEP::electron_mass_c2;
     }
   }
 
   // Fallback to the last value
-  return omegas.back() * fElectronMass;
+  return omegas.back() * CLHEP::electron_mass_c2;
 }
